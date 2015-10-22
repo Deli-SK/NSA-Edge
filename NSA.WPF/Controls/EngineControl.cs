@@ -62,6 +62,13 @@ namespace NSA.WPF.Controls
         {
             this.Engine2D?.Update(this.UpdateInterval.TotalSeconds);
             this._hoveredElement = this.Engine2D?.GetHit(this.GetWorldPosition(this._lastMouseLocation)).FirstOrDefault() as Particle;
+            var particle = (this._hit as IParticle);
+            if (particle != null)
+            {
+                var worldPosition = this.GetWorldPosition(this._lastMouseLocation);
+                particle.AddForce((worldPosition - particle.Center));
+
+            }
             this.InvalidateVisual();
         }
 
@@ -97,8 +104,7 @@ namespace NSA.WPF.Controls
             {
                 var text = new FormattedText(this._hoveredElement.Data.ToString(), CultureInfo.CurrentUICulture, FlowDirection.LeftToRight,
                     new Typeface("Arial"), 16, Brushes.Black);
-
-
+                
                 var origin = this._hoveredElement.Center + new Vector(12, 12);
                 var padding = new Vector(5, 5);
 
@@ -128,13 +134,7 @@ namespace NSA.WPF.Controls
             var position = e.GetPosition(this);
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                var hit = this._hit as IParticle;
-                if (hit != null)
-                {
-                    var worldPosition = this.GetWorldPosition(e);
-                    hit.AddForce((worldPosition - hit.Center) / 10);
-                }
-                else
+                if ((this._hit as IParticle) == null)
                 {
                     this._offset += (position - this._lastMouseLocation) / this._scale;
                     this.InvalidateVisual();
@@ -146,27 +146,26 @@ namespace NSA.WPF.Controls
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             var hit = this.Engine2D.GetHit(this.GetWorldPosition(e)).FirstOrDefault();
-            if (hit == this._hit)
+            if (hit == this._hit && (DateTime.Now - this._hitTime).TotalSeconds < 0.5f)
             {
-                if ((DateTime.Now - this._hitTime).TotalSeconds < 0.5f)
+                if (!Keyboard.IsKeyDown(Key.LeftShift) && !Keyboard.IsKeyDown(Key.RightShift))
                 {
-                    if (!Keyboard.IsKeyDown(Key.LeftShift) && !Keyboard.IsKeyDown(Key.RightShift))
-                    {
-                        this._selected.Clear();
-                    }
-
-                    this._selected.Add(hit);
+                    this._selected.Clear();
                 }
-                return;
+
+                this._selected.Add(hit);
             }
-            this._selected.Clear();
+            else
+            {
+                this._selected.Clear();
+            }
             this._hit = null;
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             base.OnMouseWheel(e);
-            this._scale += e.Delta / 1000d;
+            this._scale = Math.Max(0.2, Math.Min(this._scale + e.Delta / 1000d, 2));
         }
 
         private Point GetWorldPosition(MouseEventArgs e)
