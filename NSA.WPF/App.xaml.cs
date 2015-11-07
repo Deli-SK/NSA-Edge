@@ -1,6 +1,9 @@
 ﻿using System;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
+using System.Windows;
+
+using NSA.WPF.Common;
+using NSA.WPF.ViewModels;
+using NSA.WPF.Views.Windows;
 
 namespace NSA.WPF
 {
@@ -11,18 +14,32 @@ namespace NSA.WPF
     {
         public App()
         {
-            //Create the CompositionContainer with the parts in the catalog
-            var container = new CompositionContainer(new AssemblyCatalog(typeof(App).Assembly));
+            Composition.RegisterAssembly(typeof(App).Assembly);
+        }
 
-            //Fill the imports of this object
-            try
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            this.RegisterResources();
+            this.OpenMainWindow();
+        }
+
+        private void OpenMainWindow()
+        {
+            var window = new MainWindow
             {
-                container.ComposeParts();
-            }
-            catch (CompositionException compositionException)
-            {
-                Console.WriteLine(compositionException.ToString());
-            }
+                DataContext = Composition.Resolve<IMainWindowViewModel>()
+            };
+
+            this.MainWindow = window;
+            this.MainWindow.Show();
+        }
+
+        private void RegisterResources()
+        {
+            this.Resources.MergedDictionaries.Add(
+                LoadComponent(new Uri(@"/Views/Themes/Default.xaml", UriKind.Relative)) as ResourceDictionary);
         }
     }
 }

@@ -84,64 +84,103 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Business\Common\Actions\GraphAction.cs" />
-    <Compile Include="Business\Common\Actions\AddConnectionAction.cs" />
-    <Compile Include="Business\Common\Actions\AddSentenceAction.cs" />
-    <Compile Include="Business\Common\Actions\AddTermAction.cs" />
-    <Compile Include="Business\Common\Actions\InverseAction.cs" />
-    <Compile Include="Business\Facades\Impl\ContentAwareGraphFacade.cs" />
-    <Compile Include="Business\Facades\IContentAwareGraphFacade.cs" />
-    <Compile Include="Controls\EngineControl.cs" />
+    <Compile Include="Common\Composition.cs" />
+    <Compile Include="Common\Notifications\INotifiable.cs" />
+    <Compile Include="Common\Notifications\NotifiableProperty.cs" />
+    <Compile Include="Common\Extensions\CommandExtensions.cs" />
+    <Compile Include="Common\RelayCommand.cs" />
+    <Compile Include="Models\Serialization\Impl\GraphSerializer.cs" />
+    <Compile Include="Models\Serialization\IGraphSerializer.cs" />
+    <Compile Include="Models\Business\Impl\GraphModel.cs" />
+    <Compile Include="Models\Business\IGraphModel.cs" />
+    <Compile Include="Models\Data\Connection.cs" />
+    <Compile Include="Models\Data\Node.cs" />
+    <Compile Include="ViewModels\Impl\EditViewModel.cs" />
+    <Compile Include="ViewModels\Impl\TermsViewModel.cs" />
+    <Compile Include="ViewModels\Impl\SentencesViewModel.cs" />
+    <Compile Include="ViewModels\Impl\ConnectionsViewModel.cs" />
+    <Compile Include="ViewModels\IConnectionsViewModel.cs" />
+    <Compile Include="ViewModels\ISelectNodeViewModel.cs" />
+    <Compile Include="ViewModels\ISelectSentenceViewModel.cs" />
+    <Compile Include="ViewModels\ISelectTermViewModel.cs" />
+    <Compile Include="ViewModels\ISentencesViewModel.cs" />
+    <Compile Include="ViewModels\ITermsViewModel.cs" />
+    <Compile Include="ViewModels\IEditViewModel.cs" />
+    <Compile Include="ViewModels\Impl\FileViewModel.cs" />
+    <Compile Include="ViewModels\IFileViewModel.cs" />
+    <Compile Include="ViewModels\Impl\GraphViewModel.cs" />
+    <Compile Include="ViewModels\IMainWindowViewModel.cs" />
+    <Compile Include="ViewModels\IGraphViewModel.cs" />
+    <Compile Include="ViewModels\Impl\MainWindowViewModel.cs" />
+    <Compile Include="Services\IStateService.cs" />
+    <Compile Include="Services\Impl\StateService.cs" />
+    <Compile Include="ViewModels\Impl\SelectTermViewModel.cs" />
+    <Compile Include="ViewModels\Impl\SelectSentenceViewModel.cs" />
+    <Compile Include="Views\Controls\EdgeControl.cs" />
+    <Compile Include="Services\Impl\PromptService.cs" />
+    <Compile Include="Services\IPromptService.cs" />
+    <Compile Include="Services\Impl\NavigationService.cs" />
+    <Compile Include="Services\INavigationService.cs" />
+    <Compile Include="Services\IMessageService.cs" />
+    <Compile Include="Services\IFileProviderService.cs" />
+    <Compile Include="Services\Impl\MessageService.cs" />
+    <Compile Include="Services\Impl\SaveFileProviderService.cs" />
+    <Compile Include="Services\Impl\OpenFileProviderService.cs" />
+    <Compile Include="Views\Controls\EngineControl.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Rendering\Engine\Engine2D.cs" />
-    <Compile Include="Rendering\Engine\Entities\IDrawable.cs" />
-    <Compile Include="Rendering\Engine\Entities\Impl\Anchor.cs" />
-    <Compile Include="Rendering\Engine\Entities\Impl\DrawableSpring.cs" />
-    <Compile Include="Rendering\Engine\Entities\Impl\DummyDrawer.cs" />
-    <Compile Include="Rendering\Engine\Entities\Impl\EdgedSpringDrawer.cs" />
-    <Compile Include="Rendering\Engine\Entities\IParticle.cs" />
-    <Compile Include="Rendering\Engine\Entities\IRenderer.cs" />
-    <Compile Include="Rendering\Engine\Entities\IUpdatable.cs" />
-    <Compile Include="Rendering\Engine\Entities\Impl\Particle.cs" />
-    <Compile Include="Rendering\Engine\Entities\Impl\Spring.cs" />
-    <Compile Include="Rendering\Engine\Entities\Impl\ParticleDrawer.cs" />
-    <Compile Include="Rendering\Graph\GraphLayoutEngine.cs" />
-    <Compile Include="Rendering\Randomizer.cs" />
-    <Compile Include="UserControls\AddSentenceControl.xaml.cs">
-      <DependentUpon>AddSentenceControl.xaml</DependentUpon>
+    <Compile Include="Views\Rendering\Engine\Engine2D.cs" />
+    <Compile Include="Views\Rendering\Engine\Entities\IDrawable.cs" />
+    <Compile Include="Views\Rendering\Engine\Entities\Impl\Anchor.cs" />
+    <Compile Include="Views\Rendering\Engine\Entities\Impl\DrawableSpring.cs" />
+    <Compile Include="Views\Rendering\Engine\Entities\Impl\DummyDrawer.cs" />
+    <Compile Include="Views\Rendering\Engine\Entities\Impl\EdgedSpringDrawer.cs" />
+    <Compile Include="Views\Rendering\Engine\Entities\IParticle.cs" />
+    <Compile Include="Views\Rendering\Engine\Entities\IRenderer.cs" />
+    <Compile Include="Views\Rendering\Engine\Entities\IUpdatable.cs" />
+    <Compile Include="Views\Rendering\Engine\Entities\Impl\Particle.cs" />
+    <Compile Include="Views\Rendering\Engine\Entities\Impl\Spring.cs" />
+    <Compile Include="Views\Rendering\Engine\Entities\Impl\ParticleDrawer.cs" />
+    <Compile Include="Views\Rendering\Graph\GraphLayoutEngine.cs" />
+    <Compile Include="Views\Rendering\Randomizer.cs" />
+    <Compile Include="Views\UserControls\GraphUserControl.xaml.cs">
+      <DependentUpon>GraphUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\AddConnectionControl.xaml.cs">
-      <DependentUpon>AddConnectionControl.xaml</DependentUpon>
+    <Compile Include="Views\UserControls\SelectSentence.xaml.cs">
+      <DependentUpon>SelectSentence.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\AddTermControl.xaml.cs">
-      <DependentUpon>AddTermControl.xaml</DependentUpon>
+    <Compile Include="Views\UserControls\SelectTerm.xaml.cs">
+      <DependentUpon>SelectTerm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\BaseModalWindow.xaml.cs">
-      <DependentUpon>BaseModalWindow.xaml</DependentUpon>
+    <Compile Include="Views\Windows\ConnectionsWindow.xaml.cs">
+      <DependentUpon>ConnectionsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Commands\CustomCommands.cs" />
-    <Compile Include="Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
+    <Compile Include="Views\Windows\SentencesWindow.xaml.cs">
+      <DependentUpon>SentencesWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="UserControls\AddSentenceControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\AddConnectionControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\AddTermControl.xaml">
+    <Compile Include="Views\Windows\TermsWindow.xaml.cs">
+      <DependentUpon>TermsWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\Themes\Default.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\BaseModalWindow.xaml">
+    <Page Include="Views\UserControls\GraphUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\MainWindow.xaml">
+    <Page Include="Views\UserControls\SelectSentence.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\SelectTerm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\ConnectionsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -149,16 +188,20 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Business\Common\ConnectionType.cs" />
-    <Compile Include="Business\Data\Nodes\INode.cs" />
-    <Compile Include="Business\Data\Nodes\Impl\SentenceNode.cs" />
-    <Compile Include="Business\Data\Nodes\Impl\TermNode.cs" />
-    <Compile Include="Business\Facades\IGraphFacade.cs" />
-    <Compile Include="Business\Facades\Impl\GraphFacade.cs" />
-    <Compile Include="Windows\MainWindow.xaml.cs">
+    <Compile Include="Models\Data\SentenceNode.cs" />
+    <Compile Include="Models\Data\TermNode.cs" />
+    <Compile Include="Views\Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Windows\SentencesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\TermsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -184,16 +227,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Rendering\Graph\Entities\" />
+    <Folder Include="Views\Rendering\Graph\Entities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

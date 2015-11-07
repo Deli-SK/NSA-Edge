@@ -25,7 +25,7 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(
     AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property |
     AttributeTargets.Delegate | AttributeTargets.Field | AttributeTargets.Event)]
-  public sealed class CanBeNullAttribute : Attribute { }
+  public sealed class CanBeNullAttribute : Attribute {}
 
   /// <summary>
   /// Indicates that the value of the marked element could never be <c>null</c>.
@@ -38,7 +38,7 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(
     AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property |
     AttributeTargets.Delegate | AttributeTargets.Field | AttributeTargets.Event)]
-  public sealed class NotNullAttribute : Attribute { }
+  public sealed class NotNullAttribute : Attribute {}
 
   /// <summary>
   /// Can be appplied to symbols of types derived from IEnumerable as well as to symbols of Task
@@ -48,7 +48,7 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(
     AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property |
     AttributeTargets.Delegate | AttributeTargets.Field)]
-  public sealed class ItemNotNullAttribute : Attribute { }
+  public sealed class ItemNotNullAttribute : Attribute {}
 
   /// <summary>
   /// Can be appplied to symbols of types derived from IEnumerable as well as to symbols of Task
@@ -58,7 +58,7 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(
     AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property |
     AttributeTargets.Delegate | AttributeTargets.Field)]
-  public sealed class ItemCanBeNullAttribute : Attribute { }
+  public sealed class ItemCanBeNullAttribute : Attribute {}
 
   /// <summary>
   /// Indicates that the marked method builds string by format pattern and (optional) arguments.
@@ -77,15 +77,15 @@ namespace NSA.WPF.Annotations
     AttributeTargets.Property | AttributeTargets.Delegate)]
   public sealed class StringFormatMethodAttribute : Attribute
   {
-    /// <param name="formatParameterName">
+      public string FormatParameterName { get; private set; }
+
+      /// <param name="formatParameterName">
     /// Specifies which parameter of an annotated method should be treated as format-string
     /// </param>
     public StringFormatMethodAttribute(string formatParameterName)
     {
       this.FormatParameterName = formatParameterName;
     }
-
-    public string FormatParameterName { get; private set; }
   }
 
   /// <summary>
@@ -95,12 +95,12 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Field)]
   public sealed class ValueProviderAttribute : Attribute
   {
-    public ValueProviderAttribute(string name)
+      [NotNull] public string Name { get; private set; }
+
+      public ValueProviderAttribute(string name)
     {
       this.Name = name;
     }
-
-    [NotNull] public string Name { get; private set; }
   }
 
   /// <summary>
@@ -115,7 +115,7 @@ namespace NSA.WPF.Annotations
   /// }
   /// </code></example>
   [AttributeUsage(AttributeTargets.Parameter)]
-  public sealed class InvokerParameterNameAttribute : Attribute { }
+  public sealed class InvokerParameterNameAttribute : Attribute {}
 
   /// <summary>
   /// Indicates that the method is contained in a type that implements
@@ -156,13 +156,13 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(AttributeTargets.Method)]
   public sealed class NotifyPropertyChangedInvocatorAttribute : Attribute
   {
-    public NotifyPropertyChangedInvocatorAttribute() { }
-    public NotifyPropertyChangedInvocatorAttribute(string parameterName)
+      public string ParameterName { get; private set; }
+      public NotifyPropertyChangedInvocatorAttribute() { }
+
+      public NotifyPropertyChangedInvocatorAttribute(string parameterName)
     {
       this.ParameterName = parameterName;
     }
-
-    public string ParameterName { get; private set; }
   }
 
   /// <summary>
@@ -211,17 +211,17 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
   public sealed class ContractAnnotationAttribute : Attribute
   {
-    public ContractAnnotationAttribute([NotNull] string contract)
+      public string Contract { get; private set; }
+      public bool ForceFullStates { get; private set; }
+
+      public ContractAnnotationAttribute([NotNull] string contract)
       : this(contract, false) { }
 
-    public ContractAnnotationAttribute([NotNull] string contract, bool forceFullStates)
+      public ContractAnnotationAttribute([NotNull] string contract, bool forceFullStates)
     {
       this.Contract = contract;
       this.ForceFullStates = forceFullStates;
     }
-
-    public string Contract { get; private set; }
-    public bool ForceFullStates { get; private set; }
   }
 
   /// <summary>
@@ -236,13 +236,13 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(AttributeTargets.All)]
   public sealed class LocalizationRequiredAttribute : Attribute
   {
-    public LocalizationRequiredAttribute() : this(true) { }
-    public LocalizationRequiredAttribute(bool required)
+      public bool Required { get; private set; }
+      public LocalizationRequiredAttribute() : this(true) { }
+
+      public LocalizationRequiredAttribute(bool required)
     {
       this.Required = required;
     }
-
-    public bool Required { get; private set; }
   }
 
   /// <summary>
@@ -265,7 +265,7 @@ namespace NSA.WPF.Annotations
   /// }
   /// </code></example>
   [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Struct)]
-  public sealed class CannotApplyEqualityOperatorAttribute : Attribute { }
+  public sealed class CannotApplyEqualityOperatorAttribute : Attribute {}
 
   /// <summary>
   /// When applied to a target attribute, specifies a requirement for any type marked
@@ -281,12 +281,12 @@ namespace NSA.WPF.Annotations
   [BaseTypeRequired(typeof(Attribute))]
   public sealed class BaseTypeRequiredAttribute : Attribute
   {
-    public BaseTypeRequiredAttribute([NotNull] Type baseType)
+      [NotNull] public Type BaseType { get; private set; }
+
+      public BaseTypeRequiredAttribute([NotNull] Type baseType)
     {
       this.BaseType = baseType;
     }
-
-    [NotNull] public Type BaseType { get; private set; }
   }
 
   /// <summary>
@@ -296,23 +296,24 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(AttributeTargets.All)]
   public sealed class UsedImplicitlyAttribute : Attribute
   {
-    public UsedImplicitlyAttribute()
+      public ImplicitUseTargetFlags TargetFlags { get; private set; }
+
+      public ImplicitUseKindFlags UseKindFlags { get; private set; }
+
+      public UsedImplicitlyAttribute()
       : this(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.Default) { }
 
-    public UsedImplicitlyAttribute(ImplicitUseKindFlags useKindFlags)
+      public UsedImplicitlyAttribute(ImplicitUseKindFlags useKindFlags)
       : this(useKindFlags, ImplicitUseTargetFlags.Default) { }
 
-    public UsedImplicitlyAttribute(ImplicitUseTargetFlags targetFlags)
+      public UsedImplicitlyAttribute(ImplicitUseTargetFlags targetFlags)
       : this(ImplicitUseKindFlags.Default, targetFlags) { }
 
-    public UsedImplicitlyAttribute(ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)
+      public UsedImplicitlyAttribute(ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)
     {
       this.UseKindFlags = useKindFlags;
       this.TargetFlags = targetFlags;
     }
-
-    public ImplicitUseKindFlags UseKindFlags { get; private set; }
-    public ImplicitUseTargetFlags TargetFlags { get; private set; }
   }
 
   /// <summary>
@@ -322,23 +323,24 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(AttributeTargets.Class | AttributeTargets.GenericParameter)]
   public sealed class MeansImplicitUseAttribute : Attribute
   {
-    public MeansImplicitUseAttribute()
+      [UsedImplicitly] public ImplicitUseTargetFlags TargetFlags { get; private set; }
+
+      [UsedImplicitly] public ImplicitUseKindFlags UseKindFlags { get; private set; }
+
+      public MeansImplicitUseAttribute()
       : this(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.Default) { }
 
-    public MeansImplicitUseAttribute(ImplicitUseKindFlags useKindFlags)
+      public MeansImplicitUseAttribute(ImplicitUseKindFlags useKindFlags)
       : this(useKindFlags, ImplicitUseTargetFlags.Default) { }
 
-    public MeansImplicitUseAttribute(ImplicitUseTargetFlags targetFlags)
+      public MeansImplicitUseAttribute(ImplicitUseTargetFlags targetFlags)
       : this(ImplicitUseKindFlags.Default, targetFlags) { }
 
-    public MeansImplicitUseAttribute(ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)
+      public MeansImplicitUseAttribute(ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)
     {
       this.UseKindFlags = useKindFlags;
       this.TargetFlags = targetFlags;
     }
-
-    [UsedImplicitly] public ImplicitUseKindFlags UseKindFlags { get; private set; }
-    [UsedImplicitly] public ImplicitUseTargetFlags TargetFlags { get; private set; }
   }
 
   [Flags]
@@ -380,13 +382,13 @@ namespace NSA.WPF.Annotations
   [MeansImplicitUse(ImplicitUseTargetFlags.WithMembers)]
   public sealed class PublicAPIAttribute : Attribute
   {
-    public PublicAPIAttribute() { }
-    public PublicAPIAttribute([NotNull] string comment)
+      public string Comment { get; private set; }
+      public PublicAPIAttribute() { }
+
+      public PublicAPIAttribute([NotNull] string comment)
     {
       this.Comment = comment;
     }
-
-    public string Comment { get; private set; }
   }
 
   /// <summary>
@@ -395,7 +397,7 @@ namespace NSA.WPF.Annotations
   /// If the parameter is an enumerable, indicates that it is enumerated while the method is executed.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter)]
-  public sealed class InstantHandleAttribute : Attribute { }
+  public sealed class InstantHandleAttribute : Attribute {}
 
   /// <summary>
   /// Indicates that a method does not make any observable state changes.
@@ -409,7 +411,7 @@ namespace NSA.WPF.Annotations
   /// }
   /// </code></example>
   [AttributeUsage(AttributeTargets.Method)]
-  public sealed class PureAttribute : Attribute { }
+  public sealed class PureAttribute : Attribute {}
 
   /// <summary>
   /// Indicates that a parameter is a path to a file or a folder within a web project.
@@ -418,13 +420,13 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(AttributeTargets.Parameter)]
   public sealed class PathReferenceAttribute : Attribute
   {
-    public PathReferenceAttribute() { }
-    public PathReferenceAttribute([PathReference] string basePath)
+      public string BasePath { get; private set; }
+      public PathReferenceAttribute() { }
+
+      public PathReferenceAttribute([PathReference] string basePath)
     {
       this.BasePath = basePath;
     }
-
-    public string BasePath { get; private set; }
   }
 
   /// <summary>
@@ -451,7 +453,7 @@ namespace NSA.WPF.Annotations
   /// </code>
   /// </example>
   [AttributeUsage(AttributeTargets.Method)]
-  public sealed class SourceTemplateAttribute : Attribute { }
+  public sealed class SourceTemplateAttribute : Attribute {}
 
   /// <summary>
   /// Allows specifying a macro for a parameter of a <see cref="SourceTemplateAttribute">source template</see>.
@@ -484,13 +486,7 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method, AllowMultiple = true)]
   public sealed class MacroAttribute : Attribute
   {
-    /// <summary>
-    /// Allows specifying a macro that will be executed for a <see cref="SourceTemplateAttribute">source template</see>
-    /// parameter when the template is expanded.
-    /// </summary>
-    public string Expression { get; set; }
-
-    /// <summary>
+      /// <summary>
     /// Allows specifying which occurrence of the target parameter becomes editable when the template is deployed.
     /// </summary>
     /// <remarks>
@@ -500,7 +496,13 @@ namespace NSA.WPF.Annotations
     /// </remarks>>
     public int Editable { get; set; }
 
-    /// <summary>
+      /// <summary>
+    /// Allows specifying a macro that will be executed for a <see cref="SourceTemplateAttribute">source template</see>
+    /// parameter when the template is expanded.
+    /// </summary>
+    public string Expression { get; set; }
+
+      /// <summary>
     /// Identifies the target parameter of a <see cref="SourceTemplateAttribute">source template</see> if the
     /// <see cref="MacroAttribute"/> is applied on a template method.
     /// </summary>
@@ -510,67 +512,67 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
   public sealed class AspMvcAreaMasterLocationFormatAttribute : Attribute
   {
-    public AspMvcAreaMasterLocationFormatAttribute(string format)
+      public string Format { get; private set; }
+
+      public AspMvcAreaMasterLocationFormatAttribute(string format)
     {
       this.Format = format;
     }
-
-    public string Format { get; private set; }
   }
 
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
   public sealed class AspMvcAreaPartialViewLocationFormatAttribute : Attribute
   {
-    public AspMvcAreaPartialViewLocationFormatAttribute(string format)
+      public string Format { get; private set; }
+
+      public AspMvcAreaPartialViewLocationFormatAttribute(string format)
     {
       this.Format = format;
     }
-
-    public string Format { get; private set; }
   }
 
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
   public sealed class AspMvcAreaViewLocationFormatAttribute : Attribute
   {
-    public AspMvcAreaViewLocationFormatAttribute(string format)
+      public string Format { get; private set; }
+
+      public AspMvcAreaViewLocationFormatAttribute(string format)
     {
       this.Format = format;
     }
-
-    public string Format { get; private set; }
   }
 
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
   public sealed class AspMvcMasterLocationFormatAttribute : Attribute
   {
-    public AspMvcMasterLocationFormatAttribute(string format)
+      public string Format { get; private set; }
+
+      public AspMvcMasterLocationFormatAttribute(string format)
     {
       this.Format = format;
     }
-
-    public string Format { get; private set; }
   }
 
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
   public sealed class AspMvcPartialViewLocationFormatAttribute : Attribute
   {
-    public AspMvcPartialViewLocationFormatAttribute(string format)
+      public string Format { get; private set; }
+
+      public AspMvcPartialViewLocationFormatAttribute(string format)
     {
       this.Format = format;
     }
-
-    public string Format { get; private set; }
   }
 
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
   public sealed class AspMvcViewLocationFormatAttribute : Attribute
   {
-    public AspMvcViewLocationFormatAttribute(string format)
+      public string Format { get; private set; }
+
+      public AspMvcViewLocationFormatAttribute(string format)
     {
       this.Format = format;
     }
-
-    public string Format { get; private set; }
   }
 
   /// <summary>
@@ -582,13 +584,13 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
   public sealed class AspMvcActionAttribute : Attribute
   {
-    public AspMvcActionAttribute() { }
-    public AspMvcActionAttribute(string anonymousProperty)
+      public string AnonymousProperty { get; private set; }
+      public AspMvcActionAttribute() { }
+
+      public AspMvcActionAttribute(string anonymousProperty)
     {
       this.AnonymousProperty = anonymousProperty;
     }
-
-    public string AnonymousProperty { get; private set; }
   }
 
   /// <summary>
@@ -599,13 +601,13 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(AttributeTargets.Parameter)]
   public sealed class AspMvcAreaAttribute : Attribute
   {
-    public AspMvcAreaAttribute() { }
-    public AspMvcAreaAttribute(string anonymousProperty)
+      public string AnonymousProperty { get; private set; }
+      public AspMvcAreaAttribute() { }
+
+      public AspMvcAreaAttribute(string anonymousProperty)
     {
       this.AnonymousProperty = anonymousProperty;
     }
-
-    public string AnonymousProperty { get; private set; }
   }
 
   /// <summary>
@@ -617,13 +619,13 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
   public sealed class AspMvcControllerAttribute : Attribute
   {
-    public AspMvcControllerAttribute() { }
-    public AspMvcControllerAttribute(string anonymousProperty)
+      public string AnonymousProperty { get; private set; }
+      public AspMvcControllerAttribute() { }
+
+      public AspMvcControllerAttribute(string anonymousProperty)
     {
       this.AnonymousProperty = anonymousProperty;
     }
-
-    public string AnonymousProperty { get; private set; }
   }
 
   /// <summary>
@@ -631,14 +633,14 @@ namespace NSA.WPF.Annotations
   /// for custom wrappers similar to <c>System.Web.Mvc.Controller.View(String, String)</c>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter)]
-  public sealed class AspMvcMasterAttribute : Attribute { }
+  public sealed class AspMvcMasterAttribute : Attribute {}
 
   /// <summary>
   /// ASP.NET MVC attribute. Indicates that a parameter is an MVC model type. Use this attribute
   /// for custom wrappers similar to <c>System.Web.Mvc.Controller.View(String, Object)</c>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter)]
-  public sealed class AspMvcModelTypeAttribute : Attribute { }
+  public sealed class AspMvcModelTypeAttribute : Attribute {}
 
   /// <summary>
   /// ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter is an MVC
@@ -647,13 +649,13 @@ namespace NSA.WPF.Annotations
   /// <c>System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(HtmlHelper, String)</c>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
-  public sealed class AspMvcPartialViewAttribute : Attribute { }
+  public sealed class AspMvcPartialViewAttribute : Attribute {}
 
   /// <summary>
   /// ASP.NET MVC attribute. Allows disabling inspections for MVC views within a class or a method.
   /// </summary>
   [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-  public sealed class AspMvcSupressViewErrorAttribute : Attribute { }
+  public sealed class AspMvcSupressViewErrorAttribute : Attribute {}
 
   /// <summary>
   /// ASP.NET MVC attribute. Indicates that a parameter is an MVC display template.
@@ -661,7 +663,7 @@ namespace NSA.WPF.Annotations
   /// <c>System.Web.Mvc.Html.DisplayExtensions.DisplayForModel(HtmlHelper, String)</c>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter)]
-  public sealed class AspMvcDisplayTemplateAttribute : Attribute { }
+  public sealed class AspMvcDisplayTemplateAttribute : Attribute {}
 
   /// <summary>
   /// ASP.NET MVC attribute. Indicates that a parameter is an MVC editor template.
@@ -669,7 +671,7 @@ namespace NSA.WPF.Annotations
   /// <c>System.Web.Mvc.Html.EditorExtensions.EditorForModel(HtmlHelper, String)</c>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter)]
-  public sealed class AspMvcEditorTemplateAttribute : Attribute { }
+  public sealed class AspMvcEditorTemplateAttribute : Attribute {}
 
   /// <summary>
   /// ASP.NET MVC attribute. Indicates that a parameter is an MVC template.
@@ -677,7 +679,7 @@ namespace NSA.WPF.Annotations
   /// <c>System.ComponentModel.DataAnnotations.UIHintAttribute(System.String)</c>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter)]
-  public sealed class AspMvcTemplateAttribute : Attribute { }
+  public sealed class AspMvcTemplateAttribute : Attribute {}
 
   /// <summary>
   /// ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
@@ -686,7 +688,7 @@ namespace NSA.WPF.Annotations
   /// <c>System.Web.Mvc.Controller.View(Object)</c>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
-  public sealed class AspMvcViewAttribute : Attribute { }
+  public sealed class AspMvcViewAttribute : Attribute {}
 
   /// <summary>
   /// ASP.NET MVC attribute. When applied to a parameter of an attribute,
@@ -700,29 +702,29 @@ namespace NSA.WPF.Annotations
   /// }
   /// </code></example>
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property)]
-  public sealed class AspMvcActionSelectorAttribute : Attribute { }
+  public sealed class AspMvcActionSelectorAttribute : Attribute {}
 
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Field)]
   public sealed class HtmlElementAttributesAttribute : Attribute
   {
-    public HtmlElementAttributesAttribute() { }
-    public HtmlElementAttributesAttribute(string name)
+      public string Name { get; private set; }
+      public HtmlElementAttributesAttribute() { }
+
+      public HtmlElementAttributesAttribute(string name)
     {
       this.Name = name;
     }
-
-    public string Name { get; private set; }
   }
 
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Field | AttributeTargets.Property)]
   public sealed class HtmlAttributeValueAttribute : Attribute
   {
-    public HtmlAttributeValueAttribute([NotNull] string name)
+      [NotNull] public string Name { get; private set; }
+
+      public HtmlAttributeValueAttribute([NotNull] string name)
     {
       this.Name = name;
     }
-
-    [NotNull] public string Name { get; private set; }
   }
 
   /// <summary>
@@ -731,7 +733,7 @@ namespace NSA.WPF.Annotations
   /// <c>System.Web.WebPages.WebPageBase.RenderSection(String)</c>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
-  public sealed class RazorSectionAttribute : Attribute { }
+  public sealed class RazorSectionAttribute : Attribute {}
 
   /// <summary>
   /// Indicates how method, constructor invocation or property access
@@ -740,12 +742,12 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(AttributeTargets.Method | AttributeTargets.Constructor | AttributeTargets.Property)]
   public sealed class CollectionAccessAttribute : Attribute
   {
-    public CollectionAccessAttribute(CollectionAccessType collectionAccessType)
+      public CollectionAccessType CollectionAccessType { get; private set; }
+
+      public CollectionAccessAttribute(CollectionAccessType collectionAccessType)
     {
       this.CollectionAccessType = collectionAccessType;
     }
-
-    public CollectionAccessType CollectionAccessType { get; private set; }
   }
 
   [Flags]
@@ -767,7 +769,7 @@ namespace NSA.WPF.Annotations
   /// <see cref="AssertionConditionAttribute"/> attribute.
   /// </summary>
   [AttributeUsage(AttributeTargets.Method)]
-  public sealed class AssertionMethodAttribute : Attribute { }
+  public sealed class AssertionMethodAttribute : Attribute {}
 
   /// <summary>
   /// Indicates the condition parameter of the assertion method. The method itself should be
@@ -777,12 +779,12 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(AttributeTargets.Parameter)]
   public sealed class AssertionConditionAttribute : Attribute
   {
-    public AssertionConditionAttribute(AssertionConditionType conditionType)
+      public AssertionConditionType ConditionType { get; private set; }
+
+      public AssertionConditionAttribute(AssertionConditionType conditionType)
     {
       this.ConditionType = conditionType;
     }
-
-    public AssertionConditionType ConditionType { get; private set; }
   }
 
   /// <summary>
@@ -807,7 +809,7 @@ namespace NSA.WPF.Annotations
   /// </summary>
   [Obsolete("Use [ContractAnnotation('=> halt')] instead")]
   [AttributeUsage(AttributeTargets.Method)]
-  public sealed class TerminatesProgramAttribute : Attribute { }
+  public sealed class TerminatesProgramAttribute : Attribute {}
 
   /// <summary>
   /// Indicates that method is pure LINQ method, with postponed enumeration (like Enumerable.Select,
@@ -815,26 +817,26 @@ namespace NSA.WPF.Annotations
   /// of delegate type by analyzing LINQ method chains.
   /// </summary>
   [AttributeUsage(AttributeTargets.Method)]
-  public sealed class LinqTunnelAttribute : Attribute { }
+  public sealed class LinqTunnelAttribute : Attribute {}
 
   /// <summary>
   /// Indicates that IEnumerable, passed as parameter, is not enumerated.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter)]
-  public sealed class NoEnumerationAttribute : Attribute { }
+  public sealed class NoEnumerationAttribute : Attribute {}
 
   /// <summary>
   /// Indicates that parameter is regular expression pattern.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter)]
-  public sealed class RegexPatternAttribute : Attribute { }
+  public sealed class RegexPatternAttribute : Attribute {}
 
   /// <summary>
   /// XAML attribute. Indicates the type that has <c>ItemsSource</c> property and should be treated
   /// as <c>ItemsControl</c>-derived type, to enable inner items <c>DataContext</c> type resolve.
   /// </summary>
   [AttributeUsage(AttributeTargets.Class)]
-  public sealed class XamlItemsControlAttribute : Attribute { }
+  public sealed class XamlItemsControlAttribute : Attribute {}
 
   /// <summary>
   /// XAML attibute. Indicates the property of some <c>BindingBase</c>-derived type, that
@@ -846,47 +848,48 @@ namespace NSA.WPF.Annotations
   /// marked with the <see cref="XamlItemsControlAttribute"/> attribute.
   /// </remarks>
   [AttributeUsage(AttributeTargets.Property)]
-  public sealed class XamlItemBindingOfItemsControlAttribute : Attribute { }
+  public sealed class XamlItemBindingOfItemsControlAttribute : Attribute {}
 
   [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
   public sealed class AspChildControlTypeAttribute : Attribute
   {
-    public AspChildControlTypeAttribute(string tagName, Type controlType)
+      public Type ControlType { get; private set; }
+
+      public string TagName { get; private set; }
+
+      public AspChildControlTypeAttribute(string tagName, Type controlType)
     {
       this.TagName = tagName;
       this.ControlType = controlType;
     }
-
-    public string TagName { get; private set; }
-    public Type ControlType { get; private set; }
   }
 
   [AttributeUsage(AttributeTargets.Property | AttributeTargets.Method)]
-  public sealed class AspDataFieldAttribute : Attribute { }
+  public sealed class AspDataFieldAttribute : Attribute {}
 
   [AttributeUsage(AttributeTargets.Property | AttributeTargets.Method)]
-  public sealed class AspDataFieldsAttribute : Attribute { }
+  public sealed class AspDataFieldsAttribute : Attribute {}
 
   [AttributeUsage(AttributeTargets.Property)]
-  public sealed class AspMethodPropertyAttribute : Attribute { }
+  public sealed class AspMethodPropertyAttribute : Attribute {}
 
   [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
   public sealed class AspRequiredAttributeAttribute : Attribute
   {
-    public AspRequiredAttributeAttribute([NotNull] string attribute)
+      public string Attribute { get; private set; }
+
+      public AspRequiredAttributeAttribute([NotNull] string attribute)
     {
       this.Attribute = attribute;
     }
-
-    public string Attribute { get; private set; }
   }
 
   [AttributeUsage(AttributeTargets.Property)]
   public sealed class AspTypePropertyAttribute : Attribute
   {
-    public bool CreateConstructorReferences { get; private set; }
+      public bool CreateConstructorReferences { get; private set; }
 
-    public AspTypePropertyAttribute(bool createConstructorReferences)
+      public AspTypePropertyAttribute(bool createConstructorReferences)
     {
       this.CreateConstructorReferences = createConstructorReferences;
     }
@@ -895,41 +898,42 @@ namespace NSA.WPF.Annotations
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
   public sealed class RazorImportNamespaceAttribute : Attribute
   {
-    public RazorImportNamespaceAttribute(string name)
+      public string Name { get; private set; }
+
+      public RazorImportNamespaceAttribute(string name)
     {
       this.Name = name;
     }
-
-    public string Name { get; private set; }
   }
 
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
   public sealed class RazorInjectionAttribute : Attribute
   {
-    public RazorInjectionAttribute(string type, string fieldName)
+      public string FieldName { get; private set; }
+
+      public string Type { get; private set; }
+
+      public RazorInjectionAttribute(string type, string fieldName)
     {
       this.Type = type;
       this.FieldName = fieldName;
     }
-
-    public string Type { get; private set; }
-    public string FieldName { get; private set; }
   }
 
   [AttributeUsage(AttributeTargets.Method)]
-  public sealed class RazorHelperCommonAttribute : Attribute { }
+  public sealed class RazorHelperCommonAttribute : Attribute {}
 
   [AttributeUsage(AttributeTargets.Property)]
-  public sealed class RazorLayoutAttribute : Attribute { }
+  public sealed class RazorLayoutAttribute : Attribute {}
 
   [AttributeUsage(AttributeTargets.Method)]
-  public sealed class RazorWriteLiteralMethodAttribute : Attribute { }
+  public sealed class RazorWriteLiteralMethodAttribute : Attribute {}
 
   [AttributeUsage(AttributeTargets.Method)]
-  public sealed class RazorWriteMethodAttribute : Attribute { }
+  public sealed class RazorWriteMethodAttribute : Attribute {}
 
   [AttributeUsage(AttributeTargets.Parameter)]
-  public sealed class RazorWriteMethodParameterAttribute : Attribute { }
+  public sealed class RazorWriteMethodParameterAttribute : Attribute {}
 
   /// <summary>
   /// Prevents the Member Reordering feature from tossing members of the marked class.
@@ -938,5 +942,5 @@ namespace NSA.WPF.Annotations
   /// The attribute must be mentioned in your member reordering patterns
   /// </remarks>
   [AttributeUsage(AttributeTargets.All)]
-  public sealed class NoReorder : Attribute { }
+  public sealed class NoReorder : Attribute {}
 }
