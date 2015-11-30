@@ -1,28 +1,42 @@
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-
+using System.Linq;
+using NSA.WPF.Common.Cacheing;
+using NSA.WPF.Models.Business;
 using NSA.WPF.Models.Data;
-using Point = System.Windows.Point;
+using NSA.WPF.Services;
 
 namespace NSA.WPF.ViewModels
 {
     [Export(typeof(IGraphViewModel))]
     public class GraphViewModel : IGraphViewModel
     {
-        public ReadOnlyObservableCollection<object> Edges { get; }
-        public ReadOnlyObservableCollection<object> Nodes { get; }
+        private IGraphModel _graphModel;
 
-        private ReadOnlyObservableCollection<object> GetNodes()
+        public ReadOnlyObservableCollection<Connection> Edges => this._graphModel.Connections;
+        public ReadOnlyObservableCollection<TermNode> Terms => this._graphModel.Terms;
+        public ReadOnlyObservableCollection<SentenceNode> Sentences => this._graphModel.Sentences;
+        
+        [ImportingConstructor]
+        public GraphViewModel(
+            [Import] IGraphModel graphModel,
+            [Import] IGraphLayoutingService layoutingService)
         {
-            return new ReadOnlyObservableCollection<object>(new ObservableCollection<object>(new object[]
-            {
-                new TermNode("Test"), new TermNode("Was"), new TermNode("Here"),
-                new SentenceNode(1, 1), new SentenceNode(1, 2), new SentenceNode(2, 8), new Point(15, 120), 42
-            }));
+            this._graphModel = graphModel;
+
+            var nodes = new CachedValue<List<Node>>(this.GetNodes);
+
+            layoutingService.AttachNodeSource(nodes);
         }
 
-        private void Tick()
+        private List<Node> GetNodes()
         {
+            var list = new List<Node>(this.Terms.Count + this.Sentences.Count);
+            list.AddRange(this.Terms);
+            list.AddRange(this.Sentences);
+            return list;
         }
     }
 }

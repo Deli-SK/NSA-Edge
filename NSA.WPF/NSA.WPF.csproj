@@ -84,6 +84,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\Cacheing\CachedValue.cs" />
+    <Compile Include="Common\Cacheing\IValueProvider.cs" />
     <Compile Include="Common\Composition.cs" />
     <Compile Include="Common\Notifications\INotifiable.cs" />
     <Compile Include="Common\Notifications\NotifiableProperty.cs" />
@@ -95,6 +97,8 @@
     <Compile Include="Models\Business\IGraphModel.cs" />
     <Compile Include="Models\Data\Connection.cs" />
     <Compile Include="Models\Data\Node.cs" />
+    <Compile Include="Services\Impl\GraphLayoutingService.cs" />
+    <Compile Include="Services\IGraphLayoutingService.cs" />
     <Compile Include="ViewModels\Impl\EditViewModel.cs" />
     <Compile Include="ViewModels\Impl\TermsViewModel.cs" />
     <Compile Include="ViewModels\Impl\SentencesViewModel.cs" />
