@@ -27,6 +27,7 @@ namespace NSA.WPF.Models.Business
             [Import] IGraphSerializer serializer)
         {
             this._serializer = serializer;
+
             this.Terms = new ReadOnlyObservableCollection<TermNode>(this._termNodes);
             this.Sentences = new ReadOnlyObservableCollection<SentenceNode>(this._sentenceNodes);
             this.Connections = new ReadOnlyObservableCollection<Connection>(this._connections);

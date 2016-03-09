@@ -6,7 +6,7 @@ namespace NSA.WPF.Services
 {
     public interface IGraphLayoutingService
     {
-        void AttachNodeSource(IValueProvider<ICollection<Node>> nodes);
-        void AttachConnectionSource(IValueProvider<ICollection<Connection>> connections);
+        void AttachNodeSource(IValueProvider<Node[]> nodes);
+        void AttachConnectionSource(IValueProvider<Connection[]> connections);
     }
 }
