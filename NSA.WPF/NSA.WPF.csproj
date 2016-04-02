@@ -149,6 +149,9 @@
     <Compile Include="Views\UserControls\GraphUserControl.xaml.cs">
       <DependentUpon>GraphUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\GraphVisualisation.xaml.cs">
+      <DependentUpon>GraphVisualisation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\SelectSentence.xaml.cs">
       <DependentUpon>SelectSentence.xaml</DependentUpon>
     </Compile>
@@ -169,6 +172,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\GraphUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\GraphVisualisation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
